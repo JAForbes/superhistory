@@ -42,6 +42,19 @@ function normalizePath(str: string): string {
 	return str
 }
 
+function joinPath(a:string,b: string): string {
+	a = normalizePath(a)
+	b = normalizePath(b)
+
+	if (a === '/' ) {
+		return b
+	} else if (b === '/') {
+		return a
+	} else {
+		return a + b
+	}
+}
+
 function Superhistory({
 	_window = globalThis.window,
 	onChange = () => {},
@@ -142,7 +155,7 @@ function SuperhistoryChild({
 		_window.history[`${options.replace ? 'replace' : 'push'}State`](
 			null,
 			'',
-			normalizePath(_prefix) + normalizePath(path),
+			joinPath(_prefix, path)
 		)
 		reportChanges()
 	}
@@ -167,7 +180,7 @@ function SuperhistoryChild({
 	}) {
 		const child = SuperhistoryChild({
 			_window,
-			prefix: _prefix + prefix,
+			prefix: joinPath(_prefix, prefix),
 			onChange,
 			children: parentChildren,
 			reportChanges,

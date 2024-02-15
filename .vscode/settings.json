@@ -1,4 +1,7 @@
 {
     "javascript.format.enable": false,
-    "typescript.format.enable": false
+    "typescript.format.enable": false,
+    "editor.tabSize": 4,
+    "editor.insertSpaces": false,
+    "editor.detectIndentation": false
 }
