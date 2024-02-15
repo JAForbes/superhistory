@@ -11,7 +11,7 @@
 		"test": "node --import tsx --test test/*.ts",
 		"dev": "node --watch --import tsx --test test/*.ts",
 		"build:bundle": "esbuild lib/index.ts --bundle --format=esm --sourcemap  --allow-overwrite --outfile=./dist/superhistory.esm.js",
-		"build:types": "npx tsc ./test/index.ts --noEmit --esModuleInterop && npx tsc",
+		"build:types": "npx tsc -p tsconfig.test.json && npx tsc",
 		"build:clear": "rm -fr ./dist",
 		"build": "npm run build:clear && npm run build:bundle && npm run build:types",
 		"prepublishOnly": "npm version prerelease --preid=next && npm run build"
