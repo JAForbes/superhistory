@@ -70,6 +70,10 @@ superhistory(
 ): superhistory.Instance
 ```
 
+Creates a superhistory instance.  You can optionally pass in `onChange` to be notified any time a path is set, or `popstate` fires
+
+The `_window` parameter there is available as an override for serverside usage or tests.  For example you could use JSDOM.
+
 ### `instance.get()`
 
 ```typescript
@@ -133,6 +137,10 @@ instance.child(options: { prefix: string, onChange?: (state: State) => void })
 Create a nested istory context.  All history operations will receive/return a local pathname that does not include the `prefix` that you supply.
 
 These operations are applied directly to the history API by the child instance using the concatenated prefixes of all of its parents.
+
+You can also optionally provide an onChange callback which will notify you when a route is set or on `onpopstate`.
+
+Note there is no diffing for `onChange` callbacks, if any route instance updates all route instances get notified that the URL is being changed.
 
 ## Utilities
 
