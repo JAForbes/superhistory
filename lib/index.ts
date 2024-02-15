@@ -96,7 +96,7 @@ function Superhistory({
 	}
 
 	function get() {
-		const path = normalizePath(_window.location.pathname),
+		const path = normalizePath(_window.location.pathname)
 		return { 
 			path,
 			fullPath: path
