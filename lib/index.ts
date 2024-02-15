@@ -96,7 +96,11 @@ function Superhistory({
 	}
 
 	function get() {
-		return { path: normalizePath(_window.location.pathname) }
+		const path = normalizePath(_window.location.pathname),
+		return { 
+			path,
+			fullPath: path
+		}
 	}
 
 	function prefix() {
@@ -164,7 +168,10 @@ function SuperhistoryChild({
 		const rootPath = _window.location.pathname
 		const i = rootPath.indexOf(_prefix)
 		const child = i == -1 ? undefined : rootPath.slice(i+_prefix.length)
-		return { path: child != null ? normalizePath(child) : child }
+		return { 
+			path: child != null ? normalizePath(child) : child,
+			fullPath: child != null ? joinPath(_prefix, child) : child
+		}
 	}
 
 	function prefix() {
