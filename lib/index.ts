@@ -2,7 +2,7 @@ export type Window = typeof window
 export type Location = typeof window.location
 export type History = typeof window.history
 
-export type State = { path?: string }
+export type State = { path?: string, fullPath?: string }
 
 export type OnChange = (state: State) => void
 
