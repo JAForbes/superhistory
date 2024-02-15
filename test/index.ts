@@ -51,3 +51,13 @@ test('Basics', () => {
 
     assert.deepEqual(C1.get(), { path: '/' })
 })
+
+test('Child with empty prefix', () => {
+    
+  const {superhistory} = setup()
+
+  superhistory.go('/financials/edit/1')
+  const A = superhistory.child({ prefix: ''})
+  
+  assert.equal('/financials', A.get().path)
+})

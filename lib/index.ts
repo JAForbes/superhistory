@@ -32,11 +32,14 @@ interface ChildAttrs {
 function normalizePath(str: string): string {
 	if (str == '' || str == '/') {
 		return '/'
-	} else if (str.at(-1) == '/') {
-		return str.slice(0, -1)
-	} else {
-		return str
 	}
+	if (str.at(-1) == '/') {
+		str = str.slice(0, -1)
+	}
+	if ( str[0] != '/' ) {
+		str = '/' + str
+	}
+	return str
 }
 
 function Superhistory({
