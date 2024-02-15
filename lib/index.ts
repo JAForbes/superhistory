@@ -149,10 +149,8 @@ function SuperhistoryChild({
 
 	function get() {
 		const rootPath = _window.location.pathname
-		if (!_prefix) {
-			return { path: rootPath }
-		}
-		const [_, child] = rootPath.split(_prefix)
+		const i = rootPath.indexOf(_prefix)
+		const child = i == -1 ? undefined : rootPath.slice(i+_prefix.length)
 		return { path: child != null ? normalizePath(child) : child }
 	}
 

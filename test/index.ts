@@ -59,5 +59,5 @@ test('Child with empty prefix', () => {
   superhistory.go('/financials/edit/1')
   const A = superhistory.child({ prefix: ''})
   
-  assert.equal('/financials', A.get().path)
+  assert.equal('/financials/edit/1', A.get().path)
 })
