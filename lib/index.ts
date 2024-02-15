@@ -29,7 +29,7 @@ interface ChildAttrs {
 	reportChanges(): void
 }
 
-function normalizePath(str: string): string {
+export function normalizePath(str: string): string {
 	if (str == '' || str == '/') {
 		return '/'
 	}
@@ -42,7 +42,7 @@ function normalizePath(str: string): string {
 	return str
 }
 
-function joinPath(a:string,b: string): string {
+export function joinPath(a:string,b: string): string {
 	a = normalizePath(a)
 	b = normalizePath(b)
 
