@@ -5,7 +5,7 @@ A tiny history API with nested contexts.
 ## Quick Start
 
 ```bash
-npm install superhistory
+npm install superhistory@next
 ```
 
 ```typescript
