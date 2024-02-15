@@ -20,7 +20,7 @@ const A = superhistory()
 A.go('/a/b/c/d')
 
 window.location.pathname
-# '/a/b/c/d'
+// '/a/b/c/d'
 
 A.get()
 // { path: 'a/b/c/d' }
