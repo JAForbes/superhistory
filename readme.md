@@ -75,7 +75,7 @@ type State = {
 instance.get(): State
 ```
 
-Returns the route instance's path in its local context.  Returns `undefined` if a nested route is not compatible with the current browser location pathname.
+Returns the instance's path in its local context.  Returns `undefined` if a nested history is not compatible with the current browser location pathname.
 
 ### `instance.go(...)`
 
@@ -118,11 +118,17 @@ Returns the complete normalized prefix of the child instance (including all pare
 instance.child(options: { prefix: string, onChange?: (state: State) => void })
 ```
 
-Create a nested route context.  All route operations will receive/return a local pathname that does not include the `prefix` that you supply.
+Create a nested istory context.  All history operations will receive/return a local pathname that does not include the `prefix` that you supply.
 
 These operations are applied directly to the history API by the child instance using the concatenated prefixes of all of its parents.
 
 ## Advanced
+
+### Extracting variables out of paths
+
+This library isn't a router, its just a small wrapper around the browser history API that you could build a pattern matching router on top of.
+
+If you're looking for a pattern matching router engine: Check out [superouter](https://github.com/JAForbes/superouter)
 
 ### Path / Prefix normalization
 
