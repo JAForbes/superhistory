@@ -9,6 +9,7 @@ export type OnChange = (state: State) => void
 interface InternalInstance {
 	back(): void
 	go(path: string, options?: { replace: boolean }): void
+	preview(path: string): string
 	onChange: OnChange
 	get(): State
 	end(): void
@@ -87,6 +88,10 @@ function Superhistory({
 		})
 	}
 
+	function preview(path: string): string {
+		return path
+	}
+
 	function back() {
 		_window.history.back()
 	}
@@ -125,7 +130,7 @@ function Superhistory({
 		return child
 	}
 
-	return { go, end, back, get, prefix, child, onChange }
+	return { go, end, back, get, preview, prefix, child, onChange }
 }
 
 function SuperhistoryChild({
@@ -164,6 +169,11 @@ function SuperhistoryChild({
 		reportChanges()
 	}
 
+	function preview(path: string, options: { replace?: boolean } = {}) {
+		path = normalizePath(path)
+		return joinPath(_prefix, path)
+	}
+
 	function get() {
 		const rootPath = _window.location.pathname
 		const i = rootPath.indexOf(_prefix)
@@ -196,7 +206,7 @@ function SuperhistoryChild({
 		return child
 	}
 
-	const self = { go, end, back, get, prefix, child, onChange }
+	const self = { go, end, back, get, prefix, child, onChange, preview }
 	return self
 }
 
