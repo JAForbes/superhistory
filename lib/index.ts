@@ -83,9 +83,7 @@ function Superhistory({
 			'',
 			path,
 		)
-		onChange({
-			path,
-		})
+		reportChanges()
 	}
 
 	function preview(path: string): string {
