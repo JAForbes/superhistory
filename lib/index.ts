@@ -13,7 +13,7 @@ export type _History = {
 	back(): void
 }
 
-export type State = { path?: string, fullPath?: string }
+export type State = { path?: string, localPath?: string }
 
 export type OnChange = (state: State) => void
 
@@ -121,7 +121,7 @@ function Superhistory({
 		const path = normalizePath(_window.location.pathname)
 		return { 
 			path,
-			fullPath: path
+			localPath: path
 		}
 	}
 
@@ -201,7 +201,7 @@ function SuperhistoryChild({
 		reportChanges()
 	}
 
-	function preview(path: string, options: { replace?: boolean } = {}) {
+	function preview(path: string, _: { replace?: boolean } = {}) {
 		path = normalizePath(path)
 		return joinPath(_prefix, path)
 	}
@@ -211,8 +211,8 @@ function SuperhistoryChild({
 		const i = rootPath.indexOf(_prefix)
 		const child = i == -1 ? undefined : rootPath.slice(i+_prefix.length)
 		return { 
-			path: child != null ? normalizePath(child) : child,
-			fullPath: child != null ? joinPath(_prefix, child) : child
+			localPath: child != null ? normalizePath(child) : child,
+			path: child != null ? joinPath(_prefix, child) : child
 		}
 	}
 
