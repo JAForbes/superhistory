@@ -1,13 +1,13 @@
-export type Window = {
-	location: Location,
-	history: History,
-	addEventListener(type: 'popstate', listener: (e: PopStateEvent) => void): void
-	removeEventListener(type: 'popstate', listener: (e: PopStateEvent) => void): void
+export type _Window = {
+	location: _Location,
+	history: _History,
+	addEventListener(type: 'popstate', listener: () => void): void
+	removeEventListener(type: 'popstate', listener: () => void): void
 }
-export type Location = {
+export type _Location = {
 	pathname: string
 }
-export type History = {
+export type _History = {
 	replaceState(data: any, title: string, url: string): void
 	pushState(data: any, title: string, url: string): void
 	back(): void
@@ -36,12 +36,12 @@ interface InternalInstance {
 }
 
 interface Attrs {
-	_window?: Window
+	_window?: _Window
 	onChange?: (s: State) => any
 }
 
 interface ChildAttrs {
-	_window: Window
+	_window: _Window
 	prefix: string
 	onChange: OnChange
 	children: Set<Child>
@@ -75,7 +75,7 @@ export function joinPath(a:string,b: string): string {
 }
 
 function Superhistory({
-	_window= globalThis.window as any as Window,
+	_window= globalThis.window as any as _Window,
 	onChange = () => {},
 }: Attrs = {}): InternalInstance {
 	const children = new Set<Child>()
