@@ -1,6 +1,17 @@
-export type Window = typeof window
-export type Location = typeof window.location
-export type History = typeof window.history
+export type Window = {
+	location: Location,
+	history: History,
+	addEventListener(type: 'popstate', listener: (e: PopStateEvent) => void): void
+	removeEventListener(type: 'popstate', listener: (e: PopStateEvent) => void): void
+}
+export type Location = {
+	pathname: string
+}
+export type History = {
+	replaceState(data: any, title: string, url: string): void
+	pushState(data: any, title: string, url: string): void
+	back(): void
+}
 
 export type State = { path?: string, fullPath?: string }
 
@@ -57,7 +68,7 @@ export function joinPath(a:string,b: string): string {
 }
 
 function Superhistory({
-	_window = globalThis.window,
+	_window= globalThis.window as any as Window,
 	onChange = () => {},
 }: Attrs = {}): InternalInstance {
 	const children = new Set<InternalInstance>()
@@ -78,7 +89,8 @@ function Superhistory({
 
 	function go(path: string, options: { replace?: boolean } = {}) {
 		path = normalizePath(path)
-		_window.history[`${options.replace ? 'replace' : 'push'}State`](
+
+		_window.history[options.replace ? 'replaceState' : 'pushState'](
 			null,
 			'',
 			path,
