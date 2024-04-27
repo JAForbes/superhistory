@@ -17,11 +17,18 @@ export type State = { path?: string, fullPath?: string }
 
 export type OnChange = (state: State) => void
 
+type Child = {
+	end(): void
+	onChange?: OnChange
+	get(): State
+}
+
 interface InternalInstance {
 	back(): void
 	go(path: string, options?: { replace: boolean }): void
 	preview(path: string): string
 	onChange: OnChange
+	observe(update: (x: State) => void): () => void
 	get(): State
 	end(): void
 	prefix: () => string
@@ -37,7 +44,7 @@ interface ChildAttrs {
 	_window: Window
 	prefix: string
 	onChange: OnChange
-	children: Set<InternalInstance>
+	children: Set<Child>
 	reportChanges(): void
 }
 
@@ -71,7 +78,7 @@ function Superhistory({
 	_window= globalThis.window as any as Window,
 	onChange = () => {},
 }: Attrs = {}): InternalInstance {
-	const children = new Set<InternalInstance>()
+	const children = new Set<Child>()
 
 	const reportChanges = () => {
 		onChange({
@@ -140,7 +147,22 @@ function Superhistory({
 		return child
 	}
 
-	return { go, end, back, get, preview, prefix, child, onChange }
+	function observe( update: (x: State) => void ): () => void {
+
+		let self: Child = {
+			end: () => {
+				children.delete(self)
+			},
+			get: () => get(),
+			onChange: update
+		}
+		
+		children.add(self)
+
+		return () => self.end()
+	}
+
+	return { go, end, back, get, preview, prefix, child, onChange, observe }
 }
 
 function SuperhistoryChild({
@@ -152,7 +174,7 @@ function SuperhistoryChild({
 }: ChildAttrs): InternalInstance {
 	_prefix = normalizePath(_prefix)
 
-	const children = new Set<InternalInstance>()
+	const children = new Set<Child>()
 	function back() {
 		_window.history.back()
 	}
@@ -216,7 +238,23 @@ function SuperhistoryChild({
 		return child
 	}
 
-	const self = { go, end, back, get, prefix, child, onChange, preview }
+	
+	function observe( update: (x: State) => void ): () => void {
+
+		let self: Child = {
+			end: () => {
+				children.delete(self)
+			},
+			get: () => get(),
+			onChange: update
+		}
+		
+		children.add(self)
+
+		return () => self.end()
+	}
+
+	const self = { go, end, back, get, prefix, child, onChange, preview, observe }
 	return self
 }
 
