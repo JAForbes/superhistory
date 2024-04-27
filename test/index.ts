@@ -21,13 +21,13 @@ test('Basics', () => {
 	A.go('/a/b/c/d/e/f/g/', { replace: true })
 	const b = A.get()
 
-	assert.deepEqual(a, { path: '/a/b/c/d/e/f/g', fullPath: '/a/b/c/d/e/f/g' })
+	assert.deepEqual(a, { localPath: '/a/b/c/d/e/f/g', path: '/a/b/c/d/e/f/g' })
 	assert.deepEqual(a, b, 'path normalization')
 
 	const B1 = A.child({ prefix: '/a/b' })
 	const B2 = A.child({ prefix: '/a/b/' })
 
-	assert.deepEqual(B1.get(), { path: '/c/d/e/f/g', fullPath: '/a/b/c/d/e/f/g' })
+	assert.deepEqual(B1.get(), { localPath: '/c/d/e/f/g', path: '/a/b/c/d/e/f/g' })
 	assert.deepEqual(B1.get(), B2.get())
 
 	A.go('/a/c/d')
@@ -37,15 +37,15 @@ test('Basics', () => {
 		`If child path isn't applicable, it has an undefined path`,
 	)
 
-	assert.deepEqual(A.get(), { path: '/a/c/d', fullPath: '/a/c/d' })
+	assert.deepEqual(A.get(), { localPath: '/a/c/d', path: '/a/c/d' })
 	B1.go('/d')
 	assert.deepEqual(
 		A.get(),
-		{ path: '/a/b/d', fullPath:'/a/b/d' },
+		{ localPath: '/a/b/d', path:'/a/b/d' },
 		'Writing to subroute reactivated its original prefix',
 	)
 
-	assert.deepEqual(B1.get(), { path: '/d', fullPath:'/a/b/d' }, 'And path is no longer undefined')
+	assert.deepEqual(B1.get(), { localPath: '/d', path:'/a/b/d' }, 'And path is no longer undefined')
 	assert.deepEqual(B1.get(), B2.get(), 'B1 and B2 are in sync')
 
 	B2.go('/c')
@@ -53,7 +53,7 @@ test('Basics', () => {
 	const C1 = B1.child({ prefix: '/c' })
 	const C2 = B2.child({ prefix: '/c' })
 
-	assert.deepEqual(C1.get(), { path: '/', fullPath:'/a/b/c' })
+	assert.deepEqual(C1.get(), { localPath: '/', path:'/a/b/c' })
 })
 
 test('Children of empty prefix', () => {
@@ -64,7 +64,7 @@ test('Children of empty prefix', () => {
 	const B = A.child({ prefix: '/financials' })
 	const C = B.child({ prefix: '/edit' })
 
-	assert.equal('/financials/edit/1', A.get().path)
-	assert.equal(B.get().path, '/edit/1')
-	assert.equal(C.get().path, '/1')
+	assert.equal('/financials/edit/1', A.get().localPath)
+	assert.equal(B.get().localPath, '/edit/1')
+	assert.equal(C.get().localPath, '/1')
 })
