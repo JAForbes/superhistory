@@ -156,6 +156,8 @@ function Superhistory({
 			get: () => get(),
 			onChange: update
 		}
+
+		update(get())
 		
 		children.add(self)
 
